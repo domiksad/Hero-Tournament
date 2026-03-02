@@ -46,5 +46,8 @@ public class Weapon {
         this.levelReq = levelReq;
     }
 
+    public String displayWeapon(){
+        return String.format("%s (%d dmg, %d cooldown, %d level rq)", name, damage, cooldown, levelReq);
+    }
     //</editor-fold>
 }

@@ -1,69 +1,45 @@
 package org.example;
 
-import org.example.display.TerminalDisplay;
-
-import java.awt.event.KeyEvent;
+import org.example.entities.Player;
+import org.example.items.Weapon;
 
 public class Game {
-    static boolean ignoreInput = true;
-    static boolean usingInput = false;
-    static String temp = "";
+    public static String readLine() throws Exception {
+        StringBuilder sb = new StringBuilder();
+        int c;
 
-    public static void handleInput(KeyEvent e){
-        if(ignoreInput) return;
-
-        char c = e.getKeyChar();
-        int code = e.getKeyCode();
-
-        if (usingInput) {
-            if(c == KeyEvent.VK_ESCAPE){
-                System.exit(0);
-            } else if(c == KeyEvent.VK_ENTER){
-                usingInput = false;
-            } else if(c == KeyEvent.VK_BACK_SPACE && !temp.isEmpty()){
-                temp = temp.substring(0, temp.length() - 1);
-            } else if(c != KeyEvent.CHAR_UNDEFINED){
-                temp = temp + c;
-            }
-            TerminalDisplay.print(temp);
-        } else {
-            switch (code){
-                // ESC - leave
-                case KeyEvent.VK_ESCAPE:
-                    System.exit(0);
-                    break;
-
-                case KeyEvent.VK_C:
-                    TerminalDisplay.miniInfo("Adam", 10, 15, 2, 200, 2000);
-                    TerminalDisplay.flush();
-                    System.out.println("C clicked");
-                    break;
-
-                case KeyEvent.VK_W:
-                    usingInput = true;
-                    temp = "";
-                    break;
-
-                case KeyEvent.VK_D:
-                    TerminalDisplay.flush();
-                    TerminalDisplay.print('O', 50, 5);
-                    TerminalDisplay.print('O', 149, 34);
-                    TerminalDisplay.flush();
-                    break;
-
-                case KeyEvent.VK_F:
-                    TerminalDisplay.flush();
-                    for(int i = 5; i<35; i++){
-                    TerminalDisplay.print("O".repeat(100), 50, i);
-                    }
-                    TerminalDisplay.flush();
+        while ((c = System.in.read()) != '\n') {
+            if (c != '\r') {
+                sb.append((char) c);
             }
         }
+
+        return sb.toString();
     }
 
-    public static void start(){
-        TerminalDisplay.textInMiddle("Hello adventurer. Is your name: " + temp);
-        TerminalDisplay.flush();
-        usingInput = true;
+    static Player player = new Player();
+
+    static final Weapon sword = new Weapon("Sword", 2, 1, 1);
+    static final Weapon spear = new Weapon("Spear", 3, 2, 1);
+    static final Weapon axe = new Weapon("Spear", 4, 3, 2);
+
+    public static void start() throws Exception {
+        System.out.println("What is your name?");
+        player.setName(readLine());
+        System.out.println("Hello " + player.getName() + ". Pick your weapon:\n1. " + sword.displayWeapon() + "\n2. " + spear.displayWeapon());
+        do {
+            switch (System.in.read()){
+                case '1':
+                    player.setWeapon(sword);
+                    break;
+                case '2':
+                    player.setWeapon(spear);
+                    break;
+            }
+        } while(player.getWeapon() == null);
+    }
+
+    public static void gameLoop() throws Exception {
+
     }
 }
