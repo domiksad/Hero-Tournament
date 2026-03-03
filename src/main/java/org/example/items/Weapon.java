@@ -1,10 +1,15 @@
 package org.example.items;
 
-public class Weapon {
+import org.example.entities.Enemy;
+import org.example.entities.Player;
+
+public class Weapon implements Item{
     private String name;
     private int damage;
     private int cooldown;
     private int levelReq;
+    private int cost;
+    private int cooldownTimer = 0;
 
     public Weapon(String name, int damage, int cooldown, int levelReq) {
         this.name = name;
@@ -46,8 +51,34 @@ public class Weapon {
         this.levelReq = levelReq;
     }
 
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
     public String displayWeapon(){
         return String.format("%s (%d dmg, %d cooldown, %d level rq)", name, damage, cooldown, levelReq);
+    }
+
+    public boolean use(Player player, Enemy enemy){
+        if(cooldownTimer == 0){
+            cooldownTimer = cooldown;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void decrementCooldownTimer(){
+        cooldownTimer -= 1;
+        if(cooldownTimer < 0) cooldownTimer = 0;
+    }
+
+    public void resetCooldownTimer(){
+        cooldownTimer = 0;
     }
     //</editor-fold>
 }

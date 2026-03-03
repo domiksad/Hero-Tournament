@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import org.example.items.Weapon;
+import org.example.ultimates.Ult;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractCharacter<T extends AbstractCharacter<T>> implements Character<T>{
@@ -10,6 +11,8 @@ public abstract class AbstractCharacter<T extends AbstractCharacter<T>> implemen
     protected int level;
     protected int experience;
     protected Weapon weapon;
+    protected Ult ult;
+    protected int damage;
 
     //<editor-fold desc="Gettery i Settery">
     public String getName() { return name; }
@@ -37,7 +40,7 @@ public abstract class AbstractCharacter<T extends AbstractCharacter<T>> implemen
     }
 
     public int getExperience() { return experience; }
-    public T setExperience(int experience) { this.experience = experience; return (T)null; }
+    public T setExperience(int experience) { this.experience = experience; return (T)this; }
 
     public void addExperience(int amount) {
         this.experience += amount;
@@ -46,8 +49,24 @@ public abstract class AbstractCharacter<T extends AbstractCharacter<T>> implemen
         }
     }
 
-    public Weapon getWeapon() { return weapon; }
-    public void setWeapon(Weapon weapon) { this.weapon = weapon; }
+    public int getDamage() {
+        return damage;
+    }
 
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public Weapon getWeapon() { return weapon; }
+    public T setWeapon(Weapon weapon) { this.weapon = weapon; return (T)this;}
+
+    public Ult getUlt(){
+        return ult;
+    }
+
+    public T setUlt(Ult ult){
+        this.ult = ult;
+        return (T)this;
+    }
     //</editor-fold>
 }
