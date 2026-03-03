@@ -1,6 +1,6 @@
-package org.example.entities;
+package domiksad.heroTournament.entities;
 
-import org.example.items.Item;
+import domiksad.heroTournament.items.Item;
 
 import java.util.ArrayList;
 

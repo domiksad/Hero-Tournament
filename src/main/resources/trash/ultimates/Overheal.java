@@ -1,7 +1,7 @@
-package org.example.ultimates;
+package domiksad.heroTournament.ultimates;
 
-import org.example.entities.Enemy;
-import org.example.entities.Player;
+import domiksad.heroTournament.entities.Enemy;
+import domiksad.heroTournament.entities.Player;
 
 public class Overheal extends Ult<Overheal>{
     {

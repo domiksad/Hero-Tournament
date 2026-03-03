@@ -1,12 +1,10 @@
-package org.example;
+package trash;
 
-import org.example.entities.Enemy;
-import org.example.entities.Player;
-import org.example.items.Weapon;
-import org.example.ultimates.Overheal;
-import org.example.ultimates.SuperAttack;
-
-import static org.example.FightManager.getEnemy;
+import domiksad.heroTournament.entities.Enemy;
+import domiksad.heroTournament.entities.Player;
+import domiksad.heroTournament.items.Weapon;
+import domiksad.heroTournament.ultimates.Overheal;
+import domiksad.heroTournament.ultimates.SuperAttack;
 
 public class Game {
     public static String readLine() throws Exception {
@@ -52,7 +50,7 @@ public class Game {
         do {
             switch (System.in.read()){
                 case '1':
-                    player.(sword);
+                    player.setWeapon(sword);
                     break;
                 case '2':
                     player.setWeapon(spear);
@@ -82,7 +80,7 @@ public class Game {
 
             switch (input) {
                 case '1':
-                    Enemy enemy = getEnemy(player);
+                    Enemy enemy = FightManager.getEnemy(player);
                     FightManager.Result res = FightManager.startBattle(player, enemy);
                     if(res == FightManager.Result.WIN){
                         System.out.println("Yippy");

@@ -1,4 +1,4 @@
-package org.example.entities;
+package domiksad.heroTournament.entities;
 
 public interface Character<T extends Character<T> > {
     // String name

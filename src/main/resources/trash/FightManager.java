@@ -1,17 +1,15 @@
-package org.example;
+package trash;
 
-import org.example.entities.Enemy;
-import org.example.entities.Player;
-
-import static org.example.Game.goblin;
+import domiksad.heroTournament.entities.Enemy;
+import domiksad.heroTournament.entities.Player;
 
 public class FightManager {
     public enum Result {
-        WIN, DRAW, LOSE;
+        WIN, LOSE;
     }
 
     public static Enemy getEnemy(Player player){
-        return goblin;
+        return Game.goblin;
     }
 
     public static Result startBattle(Player player, Enemy enemy) throws Exception {

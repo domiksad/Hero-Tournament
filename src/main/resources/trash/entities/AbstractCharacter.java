@@ -1,7 +1,7 @@
-package org.example.entities;
+package domiksad.heroTournament.entities;
 
-import org.example.items.Weapon;
-import org.example.ultimates.Ult;
+import domiksad.heroTournament.items.Weapon;
+import domiksad.heroTournament.ultimates.Ult;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractCharacter<T extends AbstractCharacter<T>> implements Character<T>{

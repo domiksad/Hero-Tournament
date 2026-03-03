@@ -1,7 +1,7 @@
-package org.example.items;
+package domiksad.heroTournament.items;
 
-import org.example.entities.Enemy;
-import org.example.entities.Player;
+import domiksad.heroTournament.entities.Enemy;
+import domiksad.heroTournament.entities.Player;
 
 public class Weapon implements Item{
     private String name;

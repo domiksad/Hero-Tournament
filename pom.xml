@@ -4,12 +4,41 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.domiksad.heroTournament</groupId>
     <artifactId>hero-tournament</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <dependencies>
+        <!-- JPA API -->
+        <!-- Source: https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Hibernate -->
+        <!-- Source: https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>7.2.6.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- PostgreSQL JDBC Driver -->
+        <!-- Source: https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.10</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 
     <properties>
-        <exec.mainClass>org.example.Main</exec.mainClass>
+        <exec.mainClass>domiksad.heroTournament.Main</exec.mainClass>
         <exec.vmArgs>-ea</exec.vmArgs>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>

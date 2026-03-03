@@ -1,4 +1,4 @@
-package org.example;
+package trash;
 
 public class Main {
 

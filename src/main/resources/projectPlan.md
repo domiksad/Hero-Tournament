@@ -1,11 +1,5 @@
 # RPG
 
-## Podział na główne moduły:
-
-- **Game** – główna logika gry
-- **FightManager** – zarządzanie walką
-- **Main (Startpoint)** – punkt wejścia
-
 ---
 
 # System postaci
@@ -18,10 +12,10 @@ Bazowa klasa dla:
 - Enemy
 
 ### Atrybuty:
-- name : string
-- health / maxHealth : int
-- level / experience : int
-- armor : int
+- string name
+- Health health
+- Level level
+- Stats stats
 - equippedWeapon : Weapon
 - ultimate : Ultimate
 - List<Effect> activeEffects
@@ -44,21 +38,22 @@ Bazowa klasa dla:
 
 ## Item (interface)
 
-### Atrybuty:
-- name : string
-- price : int
-- levelRequirement : int
-- description : string
-
 ### Metody:
 - getDescription()
+- getFullDescription
+- getPrice()
+- getLevelRequirement()
 
 
 ## Weapon (implements Item)
 
 ### Atrybuty:
-- baseDamage : int
+- name : string
+- price : int
+- levelRequirement : int
+- description : string
 - damage : int
+- Cooldown cooldown
 - effects : Effect[]
 
 ---
@@ -89,33 +84,74 @@ Bazowa klasa dla:
 
 # Inne
 
-## StatType
-```
-enum StatType {
-    HEALTH,
-    ARMOR,
-    DAMAGE
-}
-```
+___
+
+## Stats
+
+### Atrybuty:
+- damage
+- armor
+
+### Metody:
+- Constructor
+- Getters
+
+___
 
 ## Cooldown
 
 ### Atrybuty:
-- int maxCooldown
-- int currentCooldown
+- int initialValue
+- int current
+- int max
 
 ### Metody:
-- Cooldown(int maxCooldown)
+- Constructors
 - bool isReady()
 - void trigger() - set currentCooldown to maxCooldown
-- int getRemaining() - get currentCooldown
+- void reset() - set currentCooldown to initialValue
+- int getRemainingCooldown() - get currentCooldown
 - int getMaxCooldown()
+
+___
+
+## Health
+
+### Atrybuty:
+- int current
+- int max
+
+### Metody:
+- Constructor
+- Getters
+- Setters (with ability to chain)
+- Health heal(int amount)
+- Health damage(int amount)
+- boolean isDead()
+
+___
+
+## Level
+
+### Atrybuty:
+- int experience
+- int level
+
+### Metody:
+- Constructors
+- int getExperienceTreshhold()
+- Level addExperience(int amount)
+- boolean hasLeveledUp()
 
 # File structure
 ```
-main-folder/
+main/
 │
-├─ src/
+├─ java.domiksad.heroTournament/
+│   ├─ application/       # logika wyższego poziomu / use cases
+│   │   ├─ Game.java
+│   │   └─ FightManager.java
+│   │
 │   ├─ domain/            # logika gry / model obiektowy (w tym encje)
 │   │   ├─ character/
 │   │   │   ├─ AbstractCharacter.java
@@ -123,36 +159,42 @@ main-folder/
 │   │   │   ├─ Enemy.java + encja
 │   │   │   └─ EnemyFactory.java
 │   │   │
-│   │   ├─ items/
-│   │   │   ├─ Item.java (interface)
-│   │   │   └─ Weapon.java + encja
-│   │   │
-│   │   ├─ ultimate/
-│   │   │   ├─ AbstractUltimate.java
-│   │   │   └─ Ultimate.java + encja
+│   │   ├─ config/
+│   │   │   └─ GameBalance.java
 │   │   │
 │   │   ├─ effects/
 │   │   │   ├─ AbstractEffect.java
 │   │   │   └─ Effect.java + encja
 │   │   │
-│   │   └─ mechanics/
-│   │       ├─ Cooldown.java
-│   │       └─ StatType.java (enum)
-│   │
-│   ├─ application/       # logika wyższego poziomu / use cases
-│   │   ├─ Game.java
-│   │   └─ FightManager.java
+│   │   ├─ items/
+│   │   │   ├─ Item.java (interface)
+│   │   │   ├─ Weapon.java + encja
+│   │   │   └─ WeaponFactory.java
+│   │   │
+│   │   ├─ mechanics/
+│   │   │   ├─ Cooldown.java
+│   │   │   ├─ Health.java
+│   │   │   ├─ Level.java
+│   │   │   └─ StatType.java (enum)
+│   │   │
+│   │   └─ ultimate/
+│   │       ├─ AbstractUltimate.java
+│   │       └─ Ultimate.java + encja
 │   │
 │   ├─ infrastructure/    # zapis / odczyt (baza danych, pliki)
-│   │   ├─ repository/
-│   │   │   ├─ PlayerRepository.java
-│   │   │   ├─ EnemyRepository.java
-│   │   │   └─ WeaponRepository.java
-│   │   └─ db/            # np. SQLite / JPA / Hibernate config
+│   │   ├─ db/            # np. SQLite / JPA / Hibernate config
+│   │   │
+│   │   └─ repository/
+│   │       ├─ PlayerRepository.java
+│   │       ├─ EnemyRepository.java
+│   │       └─ WeaponRepository.java
 │   │
-│   └─ presentation/      # UI / konsola / interfejs
-│       ├─ ConsoleUI.java
-│       └─ InputHandler.java
-│
+│   ├─ presentation/      # UI / konsola / interfejs
+│   │   ├─ ConsoleUI.java
+│   │   └─ InputHandler.java
+│   │
+│   └─ Main.java          # Entry point
+|
 └─ resources/             # statyczne pliki, konfiguracja
+    └─ projectPlan.md
 ```

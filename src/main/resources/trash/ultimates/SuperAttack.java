@@ -1,4 +1,4 @@
-package org.example.ultimates;
+package domiksad.heroTournament.ultimates;
 
 public class SuperAttack extends Ult<SuperAttack>{
     {

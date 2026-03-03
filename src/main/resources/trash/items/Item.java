@@ -1,4 +1,4 @@
-package org.example.items;
+package domiksad.heroTournament.items;
 
 public interface Item {
     String getName();
