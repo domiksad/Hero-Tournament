@@ -1,5 +1,6 @@
 package domiksad.heroTournament.application;
 
+import domiksad.heroTournament.domain.character.Enemy;
 import domiksad.heroTournament.domain.character.EnemyFactory;
 import domiksad.heroTournament.domain.character.Player;
 import domiksad.heroTournament.domain.items.Weapon;
@@ -16,6 +17,7 @@ import domiksad.heroTournament.infrastructure.db.Database;
 
 import java.io.IOException;
 
+import static domiksad.heroTournament.infrastructure.db.Database.*;
 import static java.lang.System.exit;
 
 public class Game {
@@ -60,16 +62,47 @@ public class Game {
 
     public void lose(){
         System.out.println("You lost loser");
+        deleteByName(player.getName());
         exit(1);
+    }
+
+    public void chooseSaves(){
+        System.out.println("Create new character or load from save: ");
+        System.out.println(listSaves());
+
+        System.out.println("\nOption (c - create new): ");
+        String input;
+        input = readLine();
+        int num;
+        if(input.equals("c")){
+            start();
+        } else {
+            num = Integer.parseInt(input);
+            player = load(num);
+            if(player == null){
+                System.out.println("No save with number " + num);
+                chooseSaves();
+            } else {
+                gameloop();
+            }
+        }
     }
 
     public void start(){
         // Setup database
         Database.init();
-        latestSaveId = Database.getLatestSaveId();
 
-        System.out.println("What is your name?");
-        String name = readLine();
+        String name = "";
+        do{
+            System.out.println("What is your name?");
+            name = readLine();
+            if(name.equals("") || isInDatabase(name)){
+                System.out.println("Name already in save list. Choose different name");
+            } else {
+                break;
+            }
+        } while(true);
+
 
         System.out.println("Hello " + name + ". Pick your weapon:");
         System.out.println("1. " + sword.getFullDescription());
@@ -120,9 +153,17 @@ public class Game {
             input = getChar();
             switch (input){
                 case '1':
-                    Fight.Result result = Fight.fight(player, EnemyFactory.getRandomEnemy());
+                    Enemy enemy = EnemyFactory.getRandomEnemy(player.getLevel().getLevel()+(int)Math.round(Math.random()*2-1));
+                    Fight.Result result = Fight.fight(player, enemy);
                     if(result == Fight.Result.WIN){
                         System.out.println("U won. Congrats");
+                        player.getLevel().addExperience(enemy.exp);
+                        player.setGold(player.getGold() + enemy.getGold());
+
+                        while(player.getLevel().hasLeveledUp()){
+                            System.out.println("U leveled up. Congrats. Your base stats are increased");
+                            player.levelUp();
+                        }
                     } else {
                         lose();
                     }
@@ -138,9 +179,18 @@ public class Game {
                                 if(player.getGold() >= 5){
                                     player.getHealth().heal(20);
                                     System.out.format("Youve got healed. Current life: %d / %d\n", player.getHealth().getCurrent(), player.getHealth().getMax());
+                                    player.setGold(player.getGold()-5);
                                 } else {
                                     System.out.println("Youre too broke loser");
                                 }
+                                break;
+
+                            case '2':
+                                break;
+
+                            default:
+                                System.out.println("There is no such option");
+                                break;
                         }
                     } while(input != '2');
                     break;
@@ -151,8 +201,12 @@ public class Game {
                     break;
 
                 case '9':
-                    player = Database.load(latestSaveId);
+                    player = load(latestSaveId);
                     System.out.println("Loaded");
+                    break;
+
+                default:
+                    System.out.println("There is no such option");
                     break;
             }
         } while(input != 'q');

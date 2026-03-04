@@ -76,6 +76,10 @@ public class Fight {
                 System.out.format("Enemy dealt %d damage\n", damage);
 
                 enemy.getUltimate().getCooldown().decrement();
+            } else {
+                System.out.println("Enemy waits");
+                enemy.getUltimate().getCooldown().decrement();
+                enemy.getWeapon().getCooldown().decrement();
             }
 
         } while(!player.getHealth().isDead() && !enemy.getHealth().isDead());

@@ -10,4 +10,9 @@ public class Player extends AbstractCharacter {
     public Player(String name, Health health, Level level, Stats stats, Weapon weapon, Ultimate ultimate, int gold) {
         super(name, health, level, stats, weapon, ultimate, gold);
     }
+
+    public void levelUp(){
+        stats = new Stats(stats.getDamage() + 2, stats.getArmor() + 1);
+        health = new Health(health.getCurrent() + 10, health.getMax() + 10);
+    }
 }

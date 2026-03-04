@@ -47,13 +47,39 @@ public class Database {
             e.printStackTrace();
         }
     }
-    public static int getLatestSaveId() {
-        String sql = "SELECT id FROM players ORDER BY id DESC LIMIT 1";
+
+    public static String listSaves() {
+        String sql = "SELECT id, name, level FROM players ORDER BY id DESC";
+
+        StringBuilder result = new StringBuilder();
 
         try (Connection conn = Database.connect();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                int level = rs.getInt("level");
+
+                result.append(String.format("ID: %d | Name: %s | Level: %d\n", id, name, level));
+            }
+
+            return result.toString();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Error loading saves.";
+        }
+    }
+
+    public static int getLatestSaveId(String name) {
+        String sql = "SELECT id FROM players WHERE name = ? ORDER BY id DESC LIMIT 1";
+
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            stmt.setString(1, name);
             if (rs.next()) {
                 return rs.getInt("id");
             } else {
@@ -101,10 +127,6 @@ public class Database {
     public static Player load(int playerId) {
         String sqlPlayer = """
                     SELECT * FROM players WHERE id = ?;
-                """;
-
-        String sqlEffects = """
-                    SELECT * FROM effects WHERE player_id = ?;
                 """;
 
         try (Connection conn = Database.connect();
@@ -160,6 +182,40 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static void deleteByName(String name){
+        String sqlPlayer = """
+                    DELETE FROM players WHERE nazwa = ?
+                """;
+
+        try (Connection conn = Database.connect();
+             PreparedStatement stmtPlayer = conn.prepareStatement(sqlPlayer)) {
+
+            stmtPlayer.setString(1, name);
+            ResultSet rsPlayer = stmtPlayer.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean isInDatabase(String name) {
+
+        String sql = "SELECT 1 FROM players WHERE name = ? LIMIT 1";
+
+        try (Connection conn = Database.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, name);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next(); // true jeśli istnieje
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

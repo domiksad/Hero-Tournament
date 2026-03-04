@@ -32,17 +32,17 @@ public class Level {
         return level * BASE_EXP_PER_LEVEL;
     }
 
-    public Level addExperience(int amount){
-        if(level >= MAX_LEVEL) return this;
+    public void addExperience(int amount){
+        if(level >= MAX_LEVEL) return;
 
         experience += amount;
-        return this;
     }
 
     public boolean hasLeveledUp(){
         int treshhold = getExperienceTreshhold();
         if(experience >= treshhold && !isMaxLevel()){
             experience -= treshhold;
+            level += 1;
             return true;
         }
         return false;
