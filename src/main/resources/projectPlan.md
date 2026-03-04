@@ -149,8 +149,7 @@ main/
 │
 ├─ java.domiksad.heroTournament/
 │   ├─ application/       # logika wyższego poziomu / use cases
-│   │   ├─ Game.java
-│   │   └─ FightManager.java
+│   │   └─ Game.java
 │   │
 │   ├─ domain/            # logika gry / model obiektowy (w tym encje)
 │   │   ├─ character/
@@ -188,10 +187,6 @@ main/
 │   │       ├─ PlayerRepository.java
 │   │       ├─ EnemyRepository.java
 │   │       └─ WeaponRepository.java
-│   │
-│   ├─ presentation/      # UI / konsola / interfejs
-│   │   ├─ ConsoleUI.java
-│   │   └─ InputHandler.java
 │   │
 │   └─ Main.java          # Entry point
 |

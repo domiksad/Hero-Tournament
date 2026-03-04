@@ -1,16 +1,20 @@
 package domiksad.heroTournament.domain.items;
 
+import domiksad.heroTournament.domain.character.AbstractCharacter;
 import domiksad.heroTournament.domain.effects.Effect;
 import domiksad.heroTournament.domain.mechanics.Cooldown;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Weapon implements Item{
-    String name;
-    int price;
-    int levelReq = 1;
-    String description;
-    int damage;
-    Cooldown cooldown;
-    Effect[] effects;
+    private String name;
+    private int price;
+    private int levelReq = 1;
+    private String description;
+    private int damage;
+    private Cooldown cooldown;
+    private ArrayList<Effect> effects = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -58,11 +62,11 @@ public class Weapon implements Item{
         return this;
     }
 
-    public Effect[] getEffects() {
+    public ArrayList<Effect> getEffects() {
         return effects;
     }
 
-    public Weapon setEffects(Effect[] effects) {
+    public Weapon setEffects(ArrayList<Effect> effects) {
         this.effects = effects;
         return this;
     }
@@ -85,13 +89,13 @@ public class Weapon implements Item{
     @Override
     public String getFullDescription() {
         String effectsDesc = "";
-        for(int i = 0; i < effects.length; i++){
-            effectsDesc += effects[i].getDescription() + (i != effects.length-1 ? ", " : "");
+        for(int i = 0; i < effects.size(); i++){
+            effectsDesc += effects.get(i).getDescription() + (i != effects.size()-1 ? ", " : "");
         }
         if(effectsDesc != ""){
             effectsDesc = "Effects: " + effectsDesc;
         }
-        return String.format("%s - Damage: %d, Price: %d, Cooldown: %d Description: %s %s\n", name, damage, price, cooldown.getMaxCooldown(), description, effectsDesc);
+        return String.format("%s - Damage: %d, Price: %d, Cooldown: %d Description: %s %s", name, damage, price, cooldown.getMaxCooldown(), description, effectsDesc);
     }
 
     @Override

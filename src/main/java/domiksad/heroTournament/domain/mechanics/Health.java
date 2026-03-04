@@ -9,6 +9,11 @@ public class Health {
         max = maxHealth;
     }
 
+    public Health(int currentHealth, int maxHealth) {
+        current = currentHealth;
+        max = maxHealth;
+    }
+
     public int getMax() {
         return max;
     }
@@ -32,7 +37,7 @@ public class Health {
         return this;
     }
 
-    public Health damage(int amount) {
+    public Health hurt(int amount) {
         current -= amount;
         return this;
     }

@@ -3,11 +3,11 @@ package domiksad.heroTournament.domain.ultimate;
 import domiksad.heroTournament.domain.character.AbstractCharacter;
 import domiksad.heroTournament.domain.mechanics.Cooldown;
 
-public class SuperAttack implements Ultimate {
-    private String name = "Super attack";
-    private Cooldown cooldown = new Cooldown(5, 2);
-    private String description = "Use your superiority to deal twice your normal damage";
-    private int mult = 2;
+public class Overheal implements Ultimate {
+    private String name = "Overheal";
+    private Cooldown cooldown = new Cooldown(4, 2);
+    private String description = "Restores X Health. If you are already at maximum Health, it increases your Health above the maximum by X.";
+    private int heal = 40;
 
     @Override
     public String getName() {
@@ -20,18 +20,17 @@ public class SuperAttack implements Ultimate {
                 ? "READY NOW"
                 : String.format("ready in %d turns", cooldown.getRemainingCooldown());
 
-        return String.format("%s (%dx dmg) - %s (cooldown: %d turns)", name, mult, status, cooldown.getMaxCooldown());
+        return String.format("%s (%d heal) - %s (cooldown: %d turns)", name, heal, status, cooldown.getMaxCooldown());
     }
 
     @Override
     public String getFullDescription() {
-        return String.format("%s - Damage: %dx, Cooldown: %d turns Description: %s", name, mult, cooldown.getMaxCooldown(), description);
+        return String.format("%s - Heals: %d, Cooldown: %d turns Description: %s", name, heal, cooldown.getMaxCooldown(), description);
     }
 
     @Override
     public void use(AbstractCharacter user, AbstractCharacter target) {
-        int damage = user.calculateDamage()*mult - target.getStats().getArmor();
-        target.getHealth().hurt(damage);
+        user.getHealth().setCurrent(user.getHealth().getMax() + heal);
         cooldown.trigger();
     }
 
@@ -40,3 +39,4 @@ public class SuperAttack implements Ultimate {
         return cooldown;
     }
 }
+

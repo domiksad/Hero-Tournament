@@ -1,9 +1,10 @@
 package domiksad.heroTournament;
 
+import domiksad.heroTournament.application.Game;
+
 public class Main {
-    private int a;
     void main(String[] args) {
-        System.out.println("Hello");
-        System.out.println(a);
+        Game game = new Game();
+        game.start();
     }
 }

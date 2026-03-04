@@ -17,74 +17,102 @@ public abstract class AbstractCharacter {
     protected Stats stats;
     protected Weapon weapon;
     protected Ultimate ultimate;
-    protected ArrayList<Effect> effects;
+    protected int gold;
+    protected ArrayList<Effect> effects = new ArrayList<>();
+
+    public AbstractCharacter(String name, Health health, Level level, Stats stats, Weapon weapon, Ultimate ultimate, int gold) {
+        this.name = name;
+        this.health = health;
+        this.level = level;
+        this.stats = stats;
+        this.weapon = weapon;
+        this.ultimate = ultimate;
+        this.gold = gold;
+    }
 
     public String getName() {
         return name;
     }
 
-    public AbstractCharacter setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
     public Health getHealth() {
         return health;
     }
 
-    public AbstractCharacter setHealth(Health health) {
+    public void setHealth(Health health) {
         this.health = health;
-        return this;
     }
 
     public Level getLevel() {
         return level;
     }
 
-    public AbstractCharacter setLevel(Level level) {
+    public void setLevel(Level level) {
         this.level = level;
-        return this;
     }
 
     public Stats getStats() {
         return stats;
     }
 
-    public AbstractCharacter setStats(Stats stats) {
+    public void setStats(Stats stats) {
         this.stats = stats;
-        return this;
     }
 
     public Weapon getWeapon() {
         return weapon;
     }
 
-    public AbstractCharacter setWeapon(Weapon weapon) {
+    public void setWeapon(Weapon weapon) {
         this.weapon = weapon;
-        return this;
     }
 
     public Ultimate getUltimate() {
         return ultimate;
     }
 
-    public AbstractCharacter setUltimate(Ultimate ultimate) {
+    public void setUltimate(Ultimate ultimate) {
         this.ultimate = ultimate;
-        return this;
     }
 
     public ArrayList<Effect> getEffects() {
         return effects;
     }
 
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
     public int calculateDamage(){
         return calculateDamage(0);
     }
+
     public int calculateDamage(int damage){
         damage += stats.getDamage() + weapon.getDamage();
         for(var effect : effects){
             damage = effect.getModifiedDamage(damage);
         }
         return damage;
+    }
+
+    public String getFullDescription(){
+        return String.format("%s hp: %d/%d, lvl: %d (%d/%d), stats: %d damage; %d armor, utltimate: %s, gold: %d",
+                name,
+                health.getCurrent(),
+                health.getMax(),
+                level.getLevel(),
+                level.getExperience(),
+                level.getExperienceTreshhold(),
+                stats.getDamage(),
+                stats.getArmor(),
+                ultimate.getFullDescription(),
+                gold);
     }
 }

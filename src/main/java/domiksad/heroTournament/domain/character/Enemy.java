@@ -6,8 +6,8 @@ import domiksad.heroTournament.domain.mechanics.Level;
 import domiksad.heroTournament.domain.mechanics.Stats;
 import domiksad.heroTournament.domain.ultimate.Ultimate;
 
-public class Player extends AbstractCharacter {
-    public Player(String name, Health health, Level level, Stats stats, Weapon weapon, Ultimate ultimate, int gold) {
+public class Enemy extends AbstractCharacter{
+    public Enemy(String name, Health health, Level level, Stats stats, Weapon weapon, Ultimate ultimate, int gold) {
         super(name, health, level, stats, weapon, ultimate, gold);
     }
 }

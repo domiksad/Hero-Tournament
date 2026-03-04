@@ -14,6 +14,11 @@ public class Cooldown {
         current = initialValue;
     }
 
+    public void decrement(){
+        current -= 1;
+        if(current < 0) current = 0;
+    }
+
     public boolean isReady(){
         return current == 0;
     }

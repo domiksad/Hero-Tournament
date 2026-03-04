@@ -20,6 +20,14 @@ public class Level {
         this.level = level;
     }
 
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     public int getExperienceTreshhold(){
         return level * BASE_EXP_PER_LEVEL;
     }
